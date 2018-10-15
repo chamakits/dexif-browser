@@ -1,9 +1,6 @@
 /* If you're feeling fancy you can add interactivity 
     to your site with Javascript */
 
-// prints "hi" in the browser's dev tools console
-console.log('hi');
-
 var inputElement = document.getElementById("input");
 inputElement.addEventListener("change", handleFiles, false);
 function handleFiles(event) {
@@ -28,14 +25,6 @@ function handleFiles(event) {
   gps[piexif.GPSIFD.GPSVersionID] = [7, 7, 7, 7];
   gps[piexif.GPSIFD.GPSDateStamp] = "1999:99:99 99:99:99";
   
-  // S1
-  // gps[piexif.GPSIFD.GPSLatitudeRef] = "N";
-  // gps[piexif.GPSIFD.GPSLatitude] = [0, 0];
-  // gps[piexif.GPSIFD.GPSLongitudeRef] = "W";
-  // gps[piexif.GPSIFD.GPSLongitude] = [0, 0];
-  // console.log({gps});
-  // E1
-  
   var exifObj = {"0th":zeroth, "Exif":exif, "GPS":gps};
   var exifStr = piexif.dump(exifObj);
 
@@ -47,26 +36,17 @@ function handleFiles(event) {
       image.src = inserted;
       image.width = 200;
       let newDiv = document.createElement('div');
+      let label = document.createElement('p');
+      label.textContent = "Right click or long press to save image";
+      
       let el = newDiv.appendChild(image);
+      newDiv.appendChild(label);
+      let li = document.createElement('li');
+      li.appendChild(newDiv);
       let list = document.getElementById('list')
-      list.appendChild(el);
+      list.appendChild(li);
 
   };
   reader.readAsDataURL(file);
   
-}
-
-function save(filename, data) {
-    var blob = new Blob([data], {type: 'text/csv'});
-    if(window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveBlob(blob, filename);
-    }
-    else{
-        var elem = window.document.createElement('a');
-        elem.href = window.URL.createObjectURL(blob);
-        elem.download = filename;        
-        document.body.appendChild(elem);
-        elem.click();        
-        document.body.removeChild(elem);
-    }
 }
